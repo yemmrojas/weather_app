@@ -25,7 +25,9 @@ fun NavWrapper(modifier: Modifier) {
                 )
             }
             entry<Routes.WeatherSearch> {
-                WeatherSearchScreen()
+                WeatherSearchScreen() {
+                    backStack.removeLastOrNull()
+                }
             }
 
             entry<Routes.Error> {

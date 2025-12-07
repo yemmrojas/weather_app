@@ -1,7 +1,6 @@
 # WeatherApp – Consulta del Clima y Pronóstico
 ---
 ![Static Badge](https://img.shields.io/badge/Kotlin-Language-7F52FF?style=for-the-badge&logo=Kotlin)
-![Static Badge](https://img.shields.io/badge/Java-Language-orange?style=for-the-badge&logo=java)
 ![Static Badge](https://img.shields.io/badge/Jetpack_compose-Android-green?style=for-the-badge&logo=jetpackcompose)
 ![Static Badge](https://img.shields.io/badge/Clean-architecture-CB2D29?style=for-the-badge&logo=ccleaner)
 ![Static Badge](https://img.shields.io/badge/MVVM-Patter%20Arch-%232C4F7C?style=for-the-badge&logo=ccleaner)

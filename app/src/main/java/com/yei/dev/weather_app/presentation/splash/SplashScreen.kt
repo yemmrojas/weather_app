@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,11 +23,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yei.dev.weather_app.R
 import com.yei.dev.weather_app.ui.theme.Purple40
-import com.yei.dev.weather_app.ui.theme.Purple700
 import com.yei.dev.weather_app.ui.theme.Purple80
+import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(onNavigate: () -> Unit) {
+    LaunchedEffect(Unit) {
+        delay(2000)
+        onNavigate()
+    }
     ContentScreen()
 }
 
@@ -42,7 +47,7 @@ private fun ContentScreen() {
         Box(
             modifier = Modifier
                 .clip(shape = CircleShape)
-                .background(color = Purple700),
+                .background(color = Purple80),
             contentAlignment = Alignment.Center,
         ) {
             Image(
@@ -51,8 +56,8 @@ private fun ContentScreen() {
                     .height(80.dp)
                     .padding(8.dp),
                 painter = painterResource(id = R.drawable.ic_weather),
-                contentDescription = "Splash Image",
-                colorFilter = ColorFilter.tint(Purple80)
+                contentDescription = R.string.app_name.toString(),
+                colorFilter = ColorFilter.tint(Purple40)
             )
         }
         Text(

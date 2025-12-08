@@ -89,10 +89,9 @@ class WeatherSearchViewModel @Inject constructor(
      */
     private fun searchLocations(query: String) {
         viewModelScope.launch {
-            // Mostrar loading
+
             _state.update { it.copy(uiState = SearchUiState.Loading) }
-            
-            // Ejecutar búsqueda
+
             searchLocationsUseCase(query).collect { result ->
                 result.fold(
                     onSuccess = { locations ->

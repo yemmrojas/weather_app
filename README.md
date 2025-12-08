@@ -96,8 +96,12 @@ Usar Min SDK 23 permite una app más segura, moderna, estable y fácil de manten
 ## 📦 Cómo Ejecutar el Proyecto
 1. Clonar el repositorio.
 2. Abrir en Android Studio (versión Flamingo o superior).
-3. Insertar tu API Key en el archivo correspondiente.
-4. Ejecutar en dispositivo físico o emulador.
+3. Configurar la API Key:
+   - Copia el archivo `local.properties.example` a `local.properties`
+   - Reemplaza `your_api_key_here` con tu API Key de WeatherAPI
+   - El archivo `local.properties` está en `.gitignore` y no se subirá a Git
+4. Sincronizar el proyecto (Sync Now).
+5. Ejecutar en dispositivo físico o emulador.
 
 ---
 

@@ -17,13 +17,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Dangerous
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -33,12 +34,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.yei.dev.weather_app.R
 import com.yei.dev.weather_app.domain.model.Location
 import com.yei.dev.weather_app.presentation.topBar.WeatherTopBar
 import com.yei.dev.weather_app.ui.theme.Purple40
@@ -116,7 +119,7 @@ private fun SearchBar(
             .padding(horizontal = 16.dp),
         placeholder = {
             Text(
-                text = "Search for a city or airport",
+                text = stringResource(R.string.search_hint),
                 color = Purple700
             )
         },
@@ -292,13 +295,15 @@ private fun EmptyState(query: String) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "😕",
-                fontSize = 64.sp
+            Icon(
+                imageVector = Icons.Default.Info,
+                contentDescription = null,
+                modifier = Modifier.size(64.dp),
+                tint = Purple80
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "No results found",
+                text = stringResource(R.string.no_results_message),
                 color = Purple80,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium
@@ -329,13 +334,15 @@ private fun ErrorState(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "⚠️",
-                fontSize = 64.sp
+            Icon(
+                imageVector = Icons.Default.Dangerous,
+                contentDescription = null,
+                modifier = Modifier.size(64.dp),
+                tint = Purple80
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Oops! Something went wrong",
+                text = stringResource(R.string.error_message_unknown),
                 color = Purple80,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium
@@ -351,6 +358,7 @@ private fun ErrorState(
             TextButton(
                 onClick = onRetry,
                 modifier = Modifier
+                    .fillMaxWidth()
                     .background(
                         color = Purple80,
                         shape = RoundedCornerShape(8.dp)
@@ -358,7 +366,7 @@ private fun ErrorState(
                     .padding(horizontal = 24.dp, vertical = 8.dp)
             ) {
                 Text(
-                    text = "Retry",
+                    text = stringResource(R.string.text_button_retry),
                     color = Purple700,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold

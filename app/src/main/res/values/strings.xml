@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="search_hint">Search for a city or airport</string>
+    <string name="no_results_message">No results found</string>
+    <string name="error_message_unknown">An unknown error occurred</string>
+    <string name="text_button_retry">Retry</string>
 </resources>

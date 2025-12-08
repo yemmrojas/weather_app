@@ -4,4 +4,7 @@
     <string name="no_results_message">No results found</string>
     <string name="error_message_unknown">An unknown error occurred</string>
     <string name="text_button_retry">Retry</string>
+    <string name="title_search_for_a_location">Search for a location</string>
+    <string name="description_search_for_a_location">Type at least 3 characters to start searching</string>
+    <string name="description_circle_bar_searching">Searching...</string>
 </resources>

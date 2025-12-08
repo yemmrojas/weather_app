@@ -175,14 +175,14 @@ private fun IdleState() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Search for a location",
+                text = stringResource(R.string.title_search_for_a_location),
                 color = Purple80,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Type at least 3 characters to start searching",
+                text = stringResource(R.string.description_search_for_a_location),
                 color = Purple80.copy(alpha = 0.7f),
                 fontSize = 14.sp,
                 textAlign = TextAlign.Center
@@ -208,7 +208,7 @@ private fun LoadingState() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Searching...",
+                text = stringResource(R.string.description_circle_bar_searching),
                 color = Purple80,
                 fontSize = 16.sp
             )

@@ -206,7 +206,7 @@ private fun ForecastSection(
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = "Pronóstico de 3 días",
+            text = stringResource(R.string.detail_screen_section_average_temperature_text_average_temperature),
             color = Purple80,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,

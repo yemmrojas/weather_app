@@ -10,6 +10,9 @@ sealed class Routes: NavKey {
 
     @Serializable
     data object WeatherSearch: Routes()
+    
+    @Serializable
+    data class WeatherDetail(val location: String): Routes()
 
     @Serializable
     data object Error: Routes()

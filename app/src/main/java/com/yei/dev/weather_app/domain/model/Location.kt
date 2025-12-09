@@ -1,7 +1,7 @@
 package com.yei.dev.weather_app.domain.model
 
 data class Location(
-    val id: Long,
+    val id: Long? = null,
     val name: String,
     val region: String,
     val country: String,

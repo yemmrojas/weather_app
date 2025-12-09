@@ -7,4 +7,11 @@
     <string name="title_search_for_a_location">Search for a location</string>
     <string name="description_search_for_a_location">Type at least 3 characters to start searching</string>
     <string name="description_circle_bar_searching">Searching...</string>
+    <string name="description_circle_bar_no_results">No results found %s</string>
+    <string name="detail_screen_section_now_text_feels_like_heat">Feels like heat %s</string>
+    <string name="detail_screen_section_now_text_now">Now</string>
+    <string name="detail_screen_section_forecast_text_today">Today</string>
+    <string name="detail_screen_loading_description_loading_weather">Loading weather...</string>
+    <string name="detail_screen_error_title">Oops! Something went wrong</string>
+    <string name="detail_screen_section_average_temperature_text_average_temperature">Average Temperature (3 days)</string>
 </resources>

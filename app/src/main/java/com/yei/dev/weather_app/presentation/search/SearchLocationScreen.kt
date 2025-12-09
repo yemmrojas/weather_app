@@ -43,6 +43,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yei.dev.weather_app.R
 import com.yei.dev.weather_app.domain.model.Location
+import com.yei.dev.weather_app.presentation.components.ProgressCircleScreen
+import com.yei.dev.weather_app.presentation.components.ShieldHandlerScreen
 import com.yei.dev.weather_app.presentation.topBar.WeatherTopBar
 import com.yei.dev.weather_app.ui.theme.Purple40
 import com.yei.dev.weather_app.ui.theme.Purple700
@@ -51,7 +53,8 @@ import com.yei.dev.weather_app.ui.theme.Purple80
 @Composable
 fun WeatherSearchScreen(
     viewModel: WeatherSearchViewModel = hiltViewModel(),
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onLocationSelected: (Location) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -87,6 +90,7 @@ fun WeatherSearchScreen(
                     locations = uiState.locations,
                     onLocationClick = { location ->
                         viewModel.onEvent(SearchEvent.OnLocationSelected(location))
+                        onLocationSelected(location)
                     }
                 )
             }
@@ -157,63 +161,18 @@ private fun SearchBar(
 
 @Composable
 private fun IdleState() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = null,
-                modifier = Modifier.size(64.dp),
-                tint = Purple80
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = stringResource(R.string.title_search_for_a_location),
-                color = Purple80,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = stringResource(R.string.description_search_for_a_location),
-                color = Purple80.copy(alpha = 0.7f),
-                fontSize = 14.sp,
-                textAlign = TextAlign.Center
-            )
-        }
-    }
+    ShieldHandlerScreen(
+        icon = Icons.Default.Search,
+        title = stringResource(R.string.title_search_for_a_location),
+        description = stringResource(R.string.description_search_for_a_location),
+    ) { }
 }
 
 @Composable
 private fun LoadingState() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CircularProgressIndicator(
-                color = Purple80,
-                modifier = Modifier.size(48.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = stringResource(R.string.description_circle_bar_searching),
-                color = Purple80,
-                fontSize = 16.sp
-            )
-        }
-    }
+    ProgressCircleScreen(
+        description = stringResource(R.string.description_circle_bar_searching)
+    )
 }
 
 @Composable
@@ -291,31 +250,11 @@ private fun EmptyState(query: String) {
             .padding(32.dp),
         contentAlignment = Alignment.Center
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                imageVector = Icons.Default.Info,
-                contentDescription = null,
-                modifier = Modifier.size(64.dp),
-                tint = Purple80
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = stringResource(R.string.no_results_message),
-                color = Purple80,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "No locations found for \"$query\"",
-                color = Purple80.copy(alpha = 0.7f),
-                fontSize = 14.sp,
-                textAlign = TextAlign.Center
-            )
-        }
+        ShieldHandlerScreen(
+            icon = Icons.Default.Info,
+            title = stringResource(R.string.no_results_message),
+            description = stringResource(R.string.description_circle_bar_no_results, query),
+        ) { }
     }
 }
 
@@ -324,54 +263,12 @@ private fun ErrorState(
     message: String,
     onRetry: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-        contentAlignment = Alignment.Center
+    ShieldHandlerScreen(
+        icon = Icons.Default.Dangerous,
+        title = stringResource(R.string.error_message_unknown),
+        description = message,
+        textButton = stringResource(R.string.text_button_retry)
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                imageVector = Icons.Default.Dangerous,
-                contentDescription = null,
-                modifier = Modifier.size(64.dp),
-                tint = Purple80
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = stringResource(R.string.error_message_unknown),
-                color = Purple80,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = message,
-                color = Purple80.copy(alpha = 0.7f),
-                fontSize = 14.sp,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            TextButton(
-                onClick = onRetry,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        color = Purple80,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .padding(horizontal = 24.dp, vertical = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.text_button_retry),
-                    color = Purple700,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        }
+        onRetry()
     }
 }

@@ -116,7 +116,7 @@ class WeatherRepositoryImplTest {
     ) = WeatherRepositoryImpl(
         apiService = apiService,
         apiKey = apiKey,
-        locationMapper = mapper
+        locationMapper =
     )
 
     private fun providesApiServiceMock(

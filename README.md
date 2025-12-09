@@ -19,14 +19,14 @@ Aplicación Android diseñada para consultar el clima actual y el pronóstico de
 - Visualización del nombre, región y país en los resultados.
 
 ### Detalle del Clima
-- **Clima actual**: Temperatura, sensación térmica, condición e icono animado.
+- **Clima actual**: Temperatura, sensación térmica, condición e icono.
 - **Pronóstico de 3 días**: Temperaturas máximas y mínimas con iconos.
 - **Temperatura promedio**: Cálculo automático del promedio de temperaturas máximas con 1 decimal de precisión.
 - **Carga de imágenes**: Integración con Coil para cargar iconos del clima desde URLs.
 - **Formateo de fechas**: Conversión automática de fechas ISO a formato DD/MM.
 
 ### Características Generales
-- Splash screen inicial con animación.
+- Splash screen inicial con el identificador del app.
 - Navegación type-safe con Navigation 3 y serialización.
 - Soporte completo para cambio de orientación.
 - Manejo robusto de errores y estados inesperados.
@@ -70,42 +70,11 @@ Documentación oficial: https://www.weatherapi.com/docs/
 ---
 
 ## 🧩 Requisitos Técnicos
-- **Lenguaje:** Kotlin 2.2.21
+- **Lenguaje:** Kotlin
 - **Arquitectura:** Clean Architecture + MVVM
 - **Min SDK:** 23
-- **Target SDK:** 35
-- **Gradle:** 8.13.1
-- **AGP:** 8.13.1
-
-### 📚 Librerías y Tecnologías
-
-#### **UI & Navigation**
-- **Jetpack Compose** (BOM 2025.12.00): UI declarativa moderna
-- **Material 3**: Componentes de diseño Material Design
-- **Navigation 3** (1.0.0): Navegación type-safe con serialización
-- **Coil** (2.7.0): Carga de imágenes asíncrona
-- **Splash Screen API** (1.0.1): Splash screen nativo
-
-#### **Arquitectura & DI**
-- **Dagger Hilt** (2.57.2): Inyección de dependencias
-- **Hilt Navigation Compose** (1.3.0): Integración con Compose
-- **Lifecycle ViewModel Compose** (2.10.0): ViewModels con Compose
-
-#### **Networking**
-- **Retrofit** (3.0.0): Cliente HTTP type-safe
-- **OkHttp** (5.3.2): Cliente HTTP con interceptores
-- **Kotlinx Serialization** (1.9.0): Serialización JSON
-
-#### **Asincronía**
-- **Kotlin Coroutines**: Programación asíncrona
-- **Flow**: Streams reactivos de datos
-
-#### **Testing**
-- **JUnit** (4.13.2): Framework de testing
-- **MockK** (1.14.7): Mocking para Kotlin
-- **Coroutines Test** (1.10.2): Testing de coroutines
-- **Turbine** (1.2.1): Testing de Flows
-- **AndroidX Test**: Testing de componentes Android
+- **Target SDK:** Última versión estable
+- **Dependencias:** AndroidX, Coroutines, Retrofit, entre otras.
 
 ---
 
@@ -158,9 +127,7 @@ Con debounce: 1 llamada API (después de 500ms de inactividad) ✅
 
 ### Estados de la UI
 
-La aplicación maneja diferentes estados para proporcionar feedback claro al usuario:
-
-#### **Estados de Búsqueda (SearchUiState)**
+La aplicación maneja 5 estados diferentes para la búsqueda:
 
 | Estado | Descripción | Cuándo se muestra |
 |--------|-------------|-------------------|
@@ -177,25 +144,6 @@ sealed class SearchUiState {
     data class Success(val locations: List<Location>) : SearchUiState()
     data class Empty(val query: String) : SearchUiState()
     data class Error(val message: String) : SearchUiState()
-}
-```
-
-#### **Estados del Detalle del Clima (WeatherDetailUiState)**
-
-| Estado | Descripción | Cuándo se muestra |
-|--------|-------------|-------------------|
-| **Loading** | Cargando pronóstico | Al entrar a la pantalla o hacer retry |
-| **Success** | Pronóstico cargado | Cuando se obtiene el clima exitosamente |
-| **Error** | Error al cargar | Cuando falla la conexión o la API |
-
-```kotlin
-sealed class WeatherDetailUiState {
-    data object Loading : WeatherDetailUiState()
-    data class Success(
-        val weatherForecast: WeatherForecast,
-        val averageTemperature: Double
-    ) : WeatherDetailUiState()
-    data class Error(val message: String) : WeatherDetailUiState()
 }
 ```
 
@@ -311,53 +259,6 @@ fun `searchLocations should return success when API call succeeds`() = runTest {
 ```
 
 ---
-
----
-
-## 🛠️ Utilidades y Extensiones
-
-### Formateo de Fechas
-
-El proyecto incluye una función de extensión para formatear fechas de forma consistente:
-
-```kotlin
-fun String.toShortDateFormat(isToday: Boolean = false): String
-```
-
-**Características:**
-- Convierte fechas ISO (YYYY-MM-DD) a formato corto (DD/MM)
-- Manejo robusto de errores
-- Retorna la cadena original si no puede parsear
-- Totalmente testeada con 6 casos de prueba
-
-**Ejemplo de uso:**
-```kotlin
-"2024-12-08".toShortDateFormat() // "08/12"
-forecastDay.date.toShortDateFormat(isToday = true) // "08/12"
-```
-
-**Ventajas:**
-- Separa la lógica de formateo de la UI
-- Reutilizable en todo el proyecto
-- Fácil de testear de forma aislada
-- Código más limpio y mantenible
-
-### Cálculo de Temperatura Promedio
-
-Use case dedicado para calcular el promedio de temperaturas máximas:
-
-```kotlin
-class CalculateAverageTemperatureUseCase {
-    operator fun invoke(forecastDays: List<ForecastDay>): Double
-}
-```
-
-**Características:**
-- Calcula el promedio de las temperaturas máximas
-- Redondea a 1 decimal de precisión
-- Retorna 0.0 si la lista está vacía
-- Maneja temperaturas negativas correctamente
-- 12 tests unitarios cubriendo todos los casos
 
 ---
 
@@ -493,39 +394,17 @@ weather_app/
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── java/com/yei/dev/weather_app/
-│   │   │   │   ├── data/
-│   │   │   │   │   ├── remote/
-│   │   │   │   │   │   ├── api/           # Servicios de API (Retrofit)
-│   │   │   │   │   │   ├── dto/           # Data Transfer Objects
-│   │   │   │   │   │   └── mapper/        # Mappers DTO → Domain
-│   │   │   │   │   └── repository/        # Implementación de repositorios
-│   │   │   │   ├── domain/
-│   │   │   │   │   ├── model/             # Entidades de dominio
-│   │   │   │   │   ├── repository/        # Interfaces de repositorios
-│   │   │   │   │   └── usecase/           # Casos de uso
-│   │   │   │   ├── presentation/
-│   │   │   │   │   ├── search/            # Pantalla de búsqueda
-│   │   │   │   │   ├── detail/            # Pantalla de detalle
-│   │   │   │   │   ├── splash/            # Splash screen
-│   │   │   │   │   ├── navigation/        # Navegación
-│   │   │   │   │   ├── components/        # Componentes reutilizables
-│   │   │   │   │   └── topBar/            # Top bar personalizado
-│   │   │   │   ├── di/                    # Inyección de dependencias (Hilt)
-│   │   │   │   ├── ui/theme/              # Tema y colores
-│   │   │   │   └── util/                  # Utilidades y extensiones
-│   │   │   └── res/                       # Recursos (strings, colors, etc.)
-│   │   └── test/                          # Tests unitarios (60+ tests)
-│   │       └── java/com/yei/dev/weather_app/
-│   │           ├── data/
-│   │           │   ├── remote/mapper/     # Tests de mappers
-│   │           │   └── repository/        # Tests de repositorios
-│   │           ├── domain/usecase/        # Tests de casos de uso
-│   │           ├── presentation/          # Tests de ViewModels
-│   │           └── util/                  # Tests de utilidades
-│   └── build.gradle.kts                   # Configuración de Gradle del módulo
-├── gradle/                                # Wrapper de Gradle
-├── local.properties                       # API Key (no versionado)
-└── build.gradle.kts                       # Configuración de Gradle del proyecto
+│   │   │   │   ├── data/          # Capa de datos
+│   │   │   │   ├── domain/        # Capa de dominio
+│   │   │   │   ├── presentation/  # Capa de presentación
+│   │   │   │   └── di/            # Inyección de dependencias
+│   │   │   └── res/               # Recursos (layouts, strings, etc.)
+│   │   └── test/                  # Tests unitarios
+│   └── build.gradle.kts           # Configuración de Gradle del módulo
+├── gradle/                        # Wrapper de Gradle
+├── local.properties              # API Key (no versionado)
+├── local.properties.example      # Plantilla para API Key
+└── build.gradle.kts              # Configuración de Gradle del proyecto
 ```
 
 ---

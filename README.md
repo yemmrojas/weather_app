@@ -10,6 +10,12 @@ Aplicación Android diseñada para consultar el clima actual y el pronóstico de
 
 ---
 
+| Splash app | Real-time consult weather | Detail location weather |
+|---------------------------------|------------------------------------------|-------------------------------------------|
+| <img width="300" src="https://github.com/user-attachments/assets/d3c54203-253b-4a8e-9cf9-a926f505bc02" />|<img width="300" src="https://github.com/user-attachments/assets/e17a4f4d-6be7-4626-b870-92769d85ad61"/>|<img width="300" src="https://github.com/user-attachments/assets/8f83824d-9e05-470d-b79f-b76736587978"/>|
+
+---
+
 ## 🚀 Funcionalidad Principal
 
 ### Búsqueda de Ubicaciones

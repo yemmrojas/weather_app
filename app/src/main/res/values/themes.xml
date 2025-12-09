@@ -2,4 +2,16 @@
 <resources>
 
     <style name="Theme.WeatherApp" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- Tema para el Splash Screen -->
+    <style name="Theme.WeatherApp.Starting" parent="Theme.SplashScreen">
+        <!-- Fondo de pantalla: Purple40 (#6650A4) -->
+        <item name="windowSplashScreenBackground">@color/purple_40</item>
+
+        <!-- Usar el adaptive icon del launcher (incluye foreground + background) -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+
+        <!-- Tema al que cambiar después del splash -->
+        <item name="postSplashScreenTheme">@style/Theme.WeatherApp</item>
+    </style>
 </resources>

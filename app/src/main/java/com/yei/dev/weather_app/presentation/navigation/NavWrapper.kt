@@ -1,6 +1,5 @@
 package com.yei.dev.weather_app.presentation.navigation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
@@ -8,23 +7,14 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.yei.dev.weather_app.presentation.detail.WeatherDetailScreen
 import com.yei.dev.weather_app.presentation.search.WeatherSearchScreen
-import com.yei.dev.weather_app.presentation.splash.SplashScreen
 
 @Composable
 fun NavWrapper(modifier: Modifier) {
-    val backStack = rememberNavBackStack(Routes.Splash)
+    val backStack = rememberNavBackStack(Routes.WeatherSearch)
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
-            entry<Routes.Splash> {
-                SplashScreen(
-                    onNavigate = {
-                        backStack.add(Routes.WeatherSearch)
-                        backStack.remove(Routes.Splash)
-                    }
-                )
-            }
             entry<Routes.WeatherSearch> {
                 WeatherSearchScreen(
                     onBackClick = {
@@ -35,7 +25,7 @@ fun NavWrapper(modifier: Modifier) {
                     }
                 )
             }
-            
+
             entry<Routes.WeatherDetail> { route ->
                 WeatherDetailScreen(
                     location = route.location,
@@ -43,10 +33,6 @@ fun NavWrapper(modifier: Modifier) {
                         backStack.removeLastOrNull()
                     }
                 )
-            }
-
-            entry<Routes.Error> {
-                Text("Error")
             }
         }
     )

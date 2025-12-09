@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.yei.dev.weather_app.presentation.detail.WeatherDetailScreen
 import com.yei.dev.weather_app.presentation.search.WeatherSearchScreen
 import com.yei.dev.weather_app.presentation.splash.SplashScreen
 
@@ -25,9 +26,23 @@ fun NavWrapper(modifier: Modifier) {
                 )
             }
             entry<Routes.WeatherSearch> {
-                WeatherSearchScreen {
-                    backStack.removeLastOrNull()
-                }
+                WeatherSearchScreen(
+                    onBackClick = {
+                        backStack.removeLastOrNull()
+                    },
+                    onLocationSelected = { location ->
+                        backStack.add(Routes.WeatherDetail(location = location.name))
+                    }
+                )
+            }
+            
+            entry<Routes.WeatherDetail> { route ->
+                WeatherDetailScreen(
+                    location = route.location,
+                    onBackClick = {
+                        backStack.removeLastOrNull()
+                    }
+                )
             }
 
             entry<Routes.Error> {

@@ -11,15 +11,26 @@ Aplicación Android diseñada para consultar el clima actual y el pronóstico de
 ---
 
 ## 🚀 Funcionalidad Principal
+
+### Búsqueda de Ubicaciones
 - Búsqueda de ubicaciones en tiempo real mientras el usuario escribe.
 - **Debounce de 500ms** para optimizar las llamadas a la API.
 - Validación de mínimo 3 caracteres antes de realizar búsquedas.
-- Visualización del nombre y país en los resultados.
-- Detalle del clima actual con icono, descripción y temperatura.
-- Pronóstico de 3 días (incluyendo el actual).
-- Splash screen inicial.
+- Visualización del nombre, región y país en los resultados.
+
+### Detalle del Clima
+- **Clima actual**: Temperatura, sensación térmica, condición e icono.
+- **Pronóstico de 3 días**: Temperaturas máximas y mínimas con iconos.
+- **Temperatura promedio**: Cálculo automático del promedio de temperaturas máximas con 1 decimal de precisión.
+- **Carga de imágenes**: Integración con Coil para cargar iconos del clima desde URLs.
+- **Formateo de fechas**: Conversión automática de fechas ISO a formato DD/MM.
+
+### Características Generales
+- Splash screen inicial con el identificador del app.
+- Navegación type-safe con Navigation 3 y serialización.
 - Soporte completo para cambio de orientación.
-- Manejo de errores y estados inesperados.
+- Manejo robusto de errores y estados inesperados.
+- Retry automático en caso de errores de red.
 
 ---
 
@@ -142,11 +153,32 @@ Cada estado renderiza una UI diferente, proporcionando feedback claro al usuario
 
 ## 🧪 Pruebas
 
+### Cobertura de Tests
+
+El proyecto cuenta con **cobertura completa de tests unitarios** en todas las capas:
+
+#### **Tests Implementados (Total: 60+ tests)**
+
+| Componente | Tests | Descripción |
+|------------|-------|-------------|
+| **LocationMapperTest** | 6 tests | Mapeo de DTOs a modelos de dominio |
+| **CurrentWeatherMapperTest** | 5 tests | Mapeo de clima actual, URLs de iconos |
+| **ForecastDayMapperTest** | 7 tests | Mapeo de pronóstico diario, listas |
+| **WeatherForecastMapperTest** | 6 tests | Integración de mappers, verificación de llamadas |
+| **WeatherRepositoryImplTest** | 12 tests | Búsqueda y pronóstico, manejo de errores HTTP/IO |
+| **SearchLocationsUseCaseTest** | 3 tests | Validación de query, casos exitosos y fallidos |
+| **GetWeatherForecastUseCaseTest** | 9 tests | Validación de ubicación, trim, manejo de errores |
+| **CalculateAverageTemperatureUseCaseTest** | 12 tests | Cálculo de promedios, redondeo, temperaturas negativas |
+| **WeatherSearchViewModelTest** | 8+ tests | Debounce, estados de UI, eventos |
+| **WeatherDetailViewModelTest** | 10 tests | Carga de pronóstico, retry, estados |
+| **StringExtensionsTest** | 6 tests | Formateo de fechas, edge cases |
+
 ### Estrategia de Testing
 - **Pruebas unitarias** para ViewModels, UseCases, Repositories y Mappers.
 - **Mocks con MockK** para aislar dependencias.
-- **Coroutines Test** para probar código asíncrono.
+- **Coroutines Test** para probar código asíncrono con `StandardTestDispatcher`.
 - **Turbine** para testing de Flows.
+- **Given-When-Then** como patrón estándar en todos los tests.
 
 ### Patrón Provider en Tests
 
@@ -312,10 +344,27 @@ fun `searchLocations should return success when API call succeeds`() = runTest {
 ```
 
 **Tests disponibles:**
-- `LocationMapperTest`: Tests del mapper de ubicaciones
-- `WeatherRepositoryImplTest`: Tests del repositorio
-- `SearchLocationsUseCaseTest`: Tests del caso de uso
-- `WeatherSearchViewModelTest`: Tests del ViewModel con debounce
+
+**Mappers:**
+- `LocationMapperTest`: Mapeo de ubicaciones (6 tests)
+- `CurrentWeatherMapperTest`: Mapeo de clima actual (5 tests)
+- `ForecastDayMapperTest`: Mapeo de pronóstico diario (7 tests)
+- `WeatherForecastMapperTest`: Integración de mappers (6 tests)
+
+**Repositorios:**
+- `WeatherRepositoryImplTest`: Búsqueda y pronóstico, errores HTTP/IO (12 tests)
+
+**Casos de Uso:**
+- `SearchLocationsUseCaseTest`: Validación de búsqueda (3 tests)
+- `GetWeatherForecastUseCaseTest`: Obtención de pronóstico (9 tests)
+- `CalculateAverageTemperatureUseCaseTest`: Cálculo de promedios (12 tests)
+
+**ViewModels:**
+- `WeatherSearchViewModelTest`: Búsqueda con debounce (8+ tests)
+- `WeatherDetailViewModelTest`: Detalle del clima (10 tests)
+
+**Utilidades:**
+- `StringExtensionsTest`: Formateo de fechas (6 tests)
 
 ### Solución de Problemas Comunes
 

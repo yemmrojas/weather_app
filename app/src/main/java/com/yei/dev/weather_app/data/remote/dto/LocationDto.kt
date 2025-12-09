@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class LocationDto(
     @SerialName("id")
-    val id: Long,
+    val id: Long? = null,
     
     @SerialName("name")
     val name: String,
@@ -24,5 +24,5 @@ data class LocationDto(
     val lon: Double,
     
     @SerialName("url")
-    val url: String
+    val url: String? = null
 )
